@@ -16,8 +16,6 @@ jobs:
     - name: Install dependencies
       run: | 
        sudo apt update
-       sudo curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
-       sudo apt install -y unzip default-jdk default-jre nodejs
 
     - name: Install OWASP Dependency-Check
       run: |
@@ -27,3 +25,5 @@ jobs:
     - name: Run Dependency-Check scan
       run: |
         ls
+        pwd
+        ls ..
