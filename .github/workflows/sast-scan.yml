@@ -7,30 +7,23 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
 
     steps:
 
     - uses: actions/checkout@v2
 
-    - name: install dependencies
+    - name: Install dependencies
       run: | 
        sudo apt update
        sudo curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
-       sudo apt install -y nodejs
+       sudo apt install -y unzip default-jdk default-jre nodejs
 
-    - name: OWASP Dependency Check
+    - name: Install OWASP Dependency-Check
       run: |
        wget https://github.com/jeremylong/DependencyCheck/releases/download/v6.0.2/dependency-check-6.0.2-release.zip
        unzip dependency-check-6.0.2-release.zip
 
-    - name: Run scan with ODC
+    - name: Run Dependency-Check scan
       run: |
-        dependency-check/bin/dependency-check.sh --project "SuiteCRM" --scan . > ODC-report || true
-
-    - name: Archive production artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: sast report
-        path: |
-          ./ODC-report
+        ls
