@@ -12,18 +12,21 @@ jobs:
     steps:
 
     - uses: actions/checkout@v2
-
-    - name: Install dependencies
-      run: | 
-       sudo apt update
-
+    
     - name: Install OWASP Dependency-Check
       run: |
+       sudo apt update
        wget https://github.com/jeremylong/DependencyCheck/releases/download/v6.0.2/dependency-check-6.0.2-release.zip
        unzip dependency-check-6.0.2-release.zip
-
-    - name: Run Dependency-Check scan
+        
+    - name: Run Dependency-Check Scan
       run: |
-        ls
-        pwd
-        ls ..
+        dependency-check/bin/dependency-check.sh --scan . --out ./sast-report --format JSON --prettyPrint || true
+        
+    - name: Store scan reports (Archive production artifacts)
+      uses: actions/upload-artifact@v2
+      with:
+        name: SAST Report
+        path: |
+          ./sast-report
+
