@@ -1,4 +1,4 @@
-ame: Generate Software Bill of Materials
+name: Generate Software Bill of Materials
 
 on:
   push:
