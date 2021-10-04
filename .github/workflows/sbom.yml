@@ -22,6 +22,7 @@ jobs:
     
       - name: Install CycloneDX
         run: |
+          composer --version
           composer require --dev cyclonedx/cyclonedx-php-composer
         
       - name: Run CycloneDX Scan
