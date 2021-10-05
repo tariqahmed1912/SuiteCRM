@@ -1,0 +1,35 @@
+name: Code Linting
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  code-linting:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+    
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+          php -r "if (hash_file('sha384', 'composer-setup.php') === '906a84df04cea2aa72f40b5f787e49f22d4c2f19492ac310e8cba5b96ac8b64115ac402c8cd292b8a03482574915d1a8') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+          php composer-setup.php
+          php -r "unlink('composer-setup.php');"
+    
+      - name: Install PHP Lint
+        run: |
+          composer --version
+          composer require --dev overtrue/phplint
+        
+      - name: Run PHP Lint Scan
+        run: |
+          ./vendor/bin/phplint ./ --exclude=vendor > code-linting
+        
+      - name: Store scan reports (Archive production artifacts)
+        uses: actions/upload-artifact@v2
+        with:
+          name: Code Linting Report
+          path: |
+            ./code-linting
